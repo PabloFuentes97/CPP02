@@ -45,7 +45,7 @@ int	main(void)
 			std::cout << "n1 distinto a n2" << std::endl;
 		std::cout << "Post-incremento de n1" << std::endl;
 		n1++;
-		std::cout << n1 << std::endl;
+		std::cout << "n1: " << n1 << std::endl;
 		std::cout << "Pre-incremento de n1 y asignación a n2" << std::endl;
 		n2 = ++n1;
 		std::cout << "n2: " << n2 << std::endl;
