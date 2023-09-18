@@ -2,20 +2,22 @@
 
 	Fixed::Fixed(void)
 	{
-		std::cout << "Fixed Default Constructor" << std::endl;
+		//std::cout << "Default Constructor" << std::endl;
 		this->fixedPoint = 0;
 	}
 	
 	Fixed::Fixed(int num)
 	{
-		std::cout << "Fixed Constructor with int arg" << std::endl;
+		//std::cout << "Constructor with int arg" << std::endl;
 		this->fixedPoint = (int)roundf(num * (int)(1 << this->bitsFrac));
+		//std::cout << this->fixedPoint << std::endl;
 	}
 
 	Fixed::Fixed(float num)
 	{
-		std::cout << "Fixed Constructor with float arg" << std::endl;
+		//std::cout << "Constructor with float arg" << std::endl;
 		this->fixedPoint = (int)roundf(num * (float)(1 << this->bitsFrac));
+		//std::cout << this->fixedPoint << std::endl;
 	}
 	int		Fixed::toInt(void)  const
 	{
@@ -29,13 +31,14 @@
 
 	Fixed::Fixed(Fixed const & src)
 	{
-		std::cout << "Fixed Copy Constructor" << std::endl;
+		//std::cout << "Copy Constructor" << std::endl;
 		*this = src;
+		return ;
 	}
 
 	Fixed::~Fixed(void)
 	{
-		std::cout << "Fixed Destructor" << std::endl;
+		//std::cout << "Destructor" << std::endl;
 	}
 
 	int	Fixed::getRawBits(void) const
@@ -50,9 +53,25 @@
 		this->fixedPoint = raw;
 	}
 
+	float	Fixed::getFractionPart(void) const
+	{
+		int	fracPartRaw = this->fixedPoint & this->fractionMask;
+
+		//std::cout << "Fractional part in raw bits: " << fracPartRaw << std::endl;
+		return ((float)fracPartRaw / (float)(1 << this->bitsFrac));
+	}
+
+	int		Fixed::getWholePart(void) const
+	{
+		int	wholePartRaw = this->fixedPoint & this->wholeMask;
+	
+		//std::cout << "Whole part in raw bits: " << wholePartRaw << std::endl;
+		return (((int)wholePartRaw / (int)(1 << this->bitsFrac)));
+	}
+
 	Fixed &	Fixed::operator=(Fixed const & rhs)
 	{
-		std::cout << "Fixed Assignation operator called" << std::endl;
+		//std::cout << "Assignation operator called" << std::endl;
 		this->fixedPoint = rhs.getRawBits();
 		return (*this);
 	}
@@ -77,7 +96,8 @@
 	{
 		Fixed mult;
 
-		mult.setRawBits(((long int)num1.getRawBits() * (long int)num2.getRawBits()) >> 8);
+		//mult.setRawBits((num1.getRawBits() >> 8) * (num2.getRawBits() >> 8) >> 0); //less precision and range
+		mult.setRawBits(((long int)num1.getRawBits() * (long int)num2.getRawBits()) >> 8); //slower
 		return (mult);
 	}
 
@@ -85,7 +105,8 @@
 	{
 		Fixed div;
 
-		div.setRawBits(((long int)num1.getRawBits() << 8) / (long int)num2.getRawBits());
+		//div.setRawBits((num1.getRawBits() << 8) / (num2.getRawBits() << 8) >> 0); //less precision and range
+		div.setRawBits(((long int)num1.getRawBits() << 8) / (long int)num2.getRawBits()); //slower
 		return (div);
 	}
 
@@ -173,7 +194,7 @@
 
 	std::ostream &operator<<(std::ostream & o, Fixed const & rhs)
 	{
-		std::cout << "Operator << overload" << std::endl;
+		//std::cout << "Operator << overload" << std::endl;
 		o << rhs.toFloat();
 		return (o);
 	}

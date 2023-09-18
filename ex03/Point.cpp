@@ -2,30 +2,30 @@
 
 Point::Point(void) : x(Fixed(0)), y(Fixed(0))
 {
-	std::cout << "Point Constructor" << std::endl;
+	//std::cout << "Point Constructor" << std::endl;
 	//this->x = Fixed(0);
 	//this->y = Fixed(0);
 }
 Point::Point(float x1, float y1) : x(Fixed(x1)), y(Fixed(y1))
 {
-	std::cout << "Point Constructor with parameters" << std::endl;
+	//std::cout << "Point Constructor with parameters" << std::endl;
 	//this->x = Fixed(x);
 	//this->y = Fixed(y);
 }
 Point::Point(Point const & src) : x(Fixed(src.x)), y(Fixed(src.y))
 {
-	std::cout << "Point Copy Constructor" << std::endl;
+	//std::cout << "Point Copy Constructor" << std::endl;
 	//*this = src;
 }
 Point::~Point(void)
 {
-	std::cout << "Point Destructor" << std::endl;
+	//std::cout << "Point Destructor" << std::endl;
 }
 Point	Point::operator=(Point const & rhs)
 {
-	std::cout << "Point Assignation operator called" << std::endl;
-	/* this->x = Fixed(rhs.x);
-	this->y = Fixed(rhs.y); */
+	//std::cout << "Point Assignation operator called" << std::endl;
+	const_cast<Fixed &>(this->x) = Fixed(rhs.x);
+	const_cast<Fixed &>(this->y) = Fixed(rhs.y);
 	return (*this);
 }
 
@@ -58,5 +58,7 @@ bool bsp(Point const a, Point const b, Point const c, Point const point)
 	area1 = calculateArea(a, b, point); // PAB
 	area2 = calculateArea(a, c, point); // PAC
 	area3 = calculateArea(b, c, point); // PBC
+	if (area == 0 || area3 == 0 || area2 == 0 || area1 == 0) //comprobar si punto está dentro de un segmento
+		return (false);
 	return (area == area1 + area2 + area3);
 }

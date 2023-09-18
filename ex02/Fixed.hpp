@@ -6,6 +6,8 @@ class Fixed
 	private:
 		int	fixedPoint;
 		int static const	bitsFrac = 8;
+		int	static const	fractionMask = 0xffffffff >> (32 - bitsFrac);
+		int	static const	wholeMask = -1 ^ fractionMask;
 	public:
 		Fixed(void);
 		Fixed(int num);
@@ -16,6 +18,8 @@ class Fixed
 		int		toInt(void)	const;
 		int		getRawBits(void) const;
 		void	setRawBits(int const raw);
+		float	getFractionPart(void) const;
+		int		getWholePart(void) const;
 		Fixed &	operator=(Fixed const & rhs); 
 		bool	operator>(Fixed const &cmp) const;
 		bool	operator<(Fixed const &cmp) const;
